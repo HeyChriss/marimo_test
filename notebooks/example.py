@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.12.0"
+__generated_with = "0.14.7"
 app = marimo.App(width="medium")
 
 
@@ -13,27 +13,29 @@ def _():
 @app.cell
 def _():
     import polars as pl
-    import plotly.express as px
-    import lets_plot as lp
-    return lp, pl, px
+
+    return (pl,)
 
 
 @app.cell
 def _(pl):
-    dat = pl.DataFrame({
-        'year':[2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010],
-        'UT':[4000, 3760, 4211, 4000, 3760, 4211, 4000, 3760, 4211, 4000]
-    })
-    return (dat,)
+    url = 'https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv'
+    df = pl.read_csv(url, infer_schema_length=2000000)
+    df
+
+    return (df,)
 
 
 @app.cell
-def _(dat, lp):
-    lp.ggplot(dat, lp.aes(x='year', y='UT')) + \
-        lp.geom_line() + \
-        lp.ggtb() + \
-        lp.scale_x_continuous(format='4d') + \
-        lp.ggsize(width=1000, height=500)
+def _(mo):
+    name = mo.ui.text()
+    return
+
+
+@app.cell
+def _(df, pl):
+    filtered = df.filter(pl.col('name') == 'Chris')
+    filtered
     return
 
 

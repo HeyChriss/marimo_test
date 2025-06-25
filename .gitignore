@@ -6,3 +6,4 @@ _site
 *.sqlite
 notebooks/.DS_Store
 .DS_Store
+.venv

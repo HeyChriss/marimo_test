@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.12.0"
+__generated_with = "0.14.7"
 app = marimo.App(width="medium")
 
 
@@ -13,44 +13,34 @@ def _():
 @app.cell
 def _():
     import polars as pl
-    import plotly.express as px
-    return pl, px
 
-
-@app.cell
-def _():
-    import lets_plot
-    import importlib
-
-    # Get the __all__ list from lets_plot
-    all_symbols = lets_plot.__all__
-
-    # Import each symbol into the current namespace
-    for symbol in all_symbols:
-        globals()[symbol] = getattr(lets_plot, symbol)
-    return all_symbols, importlib, lets_plot, symbol
+    return (pl,)
 
 
 @app.cell
 def _(pl):
-    df = pl.DataFrame(
-        {
-            "A": ["a", "b", "a"],
-            "B": [1, 3, 5],
-            "C": [10, 11, 12],
-            "D": [2, 4, 6],
-        }
-    )
+    url = 'https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv'
+    df = pl.read_csv(url, infer_schema_length=2000000)
     df
+
     return (df,)
 
 
 @app.cell
-def _(aes, df, geom_line, geom_point, ggplot, ggsize, ggtb):
-    ggplot(df, aes(x="B", y="C")) + geom_point() + \
-        geom_line() + \
-        ggtb() + \
-        ggsize(width=1000, height=500)
+def _(mo):
+    name = mo.ui.text()
+    return
+
+
+@app.cell
+def _(df, pl):
+    filtered = df.filter(pl.col('name') == 'Chris')
+    filtered
+    return
+
+
+@app.cell
+def _():
     return
 
 
