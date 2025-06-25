@@ -1,0 +1,8 @@
+reports/__pycache__
+notebooks/__pycache__
+__marimo__
+_site
+*.db
+*.sqlite
+notebooks/.DS_Store
+.DS_Store
